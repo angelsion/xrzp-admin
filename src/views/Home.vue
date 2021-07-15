@@ -3,7 +3,7 @@
     <v-header />
     <el-container>
       <v-sidebar />
-      <el-container class="content-box content-scroll">
+      <el-container class="content-box content-scroll" :class="{ 'content-collapse': collapse }">
         <el-header>
           <el-breadcrumb separator-class="el-icon-arrow-right" class="top-breadcrumb">
             <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
@@ -21,6 +21,8 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { computed } from "vue";
+import { useStore } from "vuex";
 import VHeader from "../components/Header.vue";
 import VSidebar from "../components/Sidebar.vue";
 import HelloWorld from "@/components/HelloWorld.vue"; // @ is an alias to /src
@@ -32,6 +34,13 @@ export default defineComponent({
     VHeader,
     VSidebar,
   },
+  setup() {
+        const store = useStore();
+        const collapse = computed(() => store.state.collapse);
+        return {
+            collapse,
+        };
+    },
   methods: {
     handleOpen(key: any, keyPath: any) {
       console.log(key, keyPath);

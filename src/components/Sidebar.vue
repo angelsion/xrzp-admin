@@ -39,79 +39,54 @@ export default {
     setup() {
         const items = [
             {
-                icon: "el-icon-lx-home",
+                icon: "el-icon-s-home",
                 index: "/dashboard",
                 title: "系统首页",
             },
             {
-                icon: "el-icon-lx-cascades",
+                icon: "el-icon-user",
                 index: "/table",
-                title: "基础表格",
+                title: "客户管理",
             },
             {
-                icon: "el-icon-lx-copy",
-                index: "/shop",
-                title: "tab选项卡",
-            },
-            {
-                icon: "el-icon-lx-calendar",
+                icon: "el-icon-present",
                 index: "3",
-                title: "表单相关",
+                title: "活动管理",
                 subs: [
                     {
                         index: "/form",
-                        title: "基本表单",
+                        title: "优惠券",
                     },
                     {
                         index: "/upload",
-                        title: "文件上传",
-                    },
-                    {
-                        index: "4",
-                        title: "三级菜单",
-                        subs: [
-                            {
-                                index: "/editor",
-                                title: "富文本编辑器",
-                            },
-                        ],
-                    },
+                        title: "满减",
+                    }
                 ],
             },
             {
-                icon: "el-icon-lx-emoji",
+                icon: "el-icon-s-order",
                 index: "/icon",
-                title: "自定义图标",
+                title: "订单管理",
             },
             {
-                icon: "el-icon-pie-chart",
-                index: "/charts",
-                title: "schart图表",
-            },
-            {
-                icon: "el-icon-lx-global",
+                icon: "el-icon-apple",
                 index: "/i18n",
-                title: "国际化功能",
+                title: "待定",
             },
             {
-                icon: "el-icon-lx-warn",
+                icon: "el-icon-s-shop",
                 index: "7",
                 title: "商品管理",
                 subs: [
                     {
-                        index: "/permission",
+                        index: "/home/permission",
                         title: "商品标签",
                     },
                     {
-                        index: "/shop",
+                        index: "/home/shop",
                         title: "商品",
                     },
                 ],
-            },
-            {
-                icon: "el-icon-lx-redpacket_fill",
-                index: "/donate",
-                title: "支持作者",
             },
         ];
 
