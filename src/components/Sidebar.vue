@@ -50,7 +50,7 @@ export default {
             },
             {
                 icon: "el-icon-lx-copy",
-                index: "/tabs",
+                index: "/shop",
                 title: "tab选项卡",
             },
             {
@@ -96,15 +96,15 @@ export default {
             {
                 icon: "el-icon-lx-warn",
                 index: "7",
-                title: "错误处理",
+                title: "商品管理",
                 subs: [
                     {
                         index: "/permission",
-                        title: "权限测试",
+                        title: "商品标签",
                     },
                     {
-                        index: "/404",
-                        title: "404页面",
+                        index: "/shop",
+                        title: "商品",
                     },
                 ],
             },

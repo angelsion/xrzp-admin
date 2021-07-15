@@ -17,6 +17,11 @@ const routes: Array<RouteRecordRaw> = [
     ]
   },
   {
+    path: '/shopp',
+    name: 'Shopp',
+    component: Shop
+  },
+  {
     path: '/about',
     name: 'About',
     // route level code-splitting
