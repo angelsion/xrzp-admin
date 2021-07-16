@@ -55,7 +55,7 @@ export default {
         };
 
         onMounted(() => {
-            if (document.body.clientWidth < 1500) {
+            if (document.body.clientWidth < 1000) {
                 collapseChage();
             }
         });
