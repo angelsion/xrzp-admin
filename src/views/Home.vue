@@ -2,15 +2,16 @@
   <el-container class="home-container">
     <v-header />
     <el-container>
-      <v-sidebar />
+      <v-sidebar v-on:barCellback="breadcrumbReceive" />
       <el-container class="content-box content-scroll" :class="{ 'content-collapse': collapse }">
         <el-header>
-          <el-breadcrumb separator-class="el-icon-arrow-right" class="top-breadcrumb">
-            <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-            <el-breadcrumb-item>活动管理</el-breadcrumb-item>
-            <el-breadcrumb-item>活动列表</el-breadcrumb-item>
-            <el-breadcrumb-item>活动详情</el-breadcrumb-item>
-          </el-breadcrumb>
+          <div class="crumbs">
+            <el-breadcrumb separator="/">
+                <el-breadcrumb-item v-for="(val,i) of breadcrumb" :key="i">
+                    {{val}}
+                </el-breadcrumb-item>
+            </el-breadcrumb>
+        </div>
         </el-header>
         <!-- 内容区 -->
         <router-view></router-view>
@@ -20,7 +21,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 import { computed } from "vue";
 import { useStore } from "vuex";
 import VHeader from "../components/Header.vue";
@@ -37,8 +38,15 @@ export default defineComponent({
   setup() {
         const store = useStore();
         const collapse = computed(() => store.state.collapse);
+        let breadcrumb = ref([] as string[]);
+        const breadcrumbReceive = (list:string[])=>{
+          breadcrumb.value = list;
+          console.log(breadcrumb);
+        }
         return {
             collapse,
+            breadcrumbReceive,
+            breadcrumb
         };
     },
   methods: {
@@ -53,7 +61,10 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-.content-scroll {
-  overflow-y: scroll;
+.home-container{
+  border-bottom: 10px solid #1aa094;
+  .content-scroll {
+    overflow-y: scroll;
+  }
 }
 </style>

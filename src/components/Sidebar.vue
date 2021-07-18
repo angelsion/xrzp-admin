@@ -1,6 +1,6 @@
 <template>
     <el-aside class="sidebar">
-        <el-menu class="sidebar-el-menu" :default-active="onRoutes" :collapse="collapse" background-color="#324157"
+        <el-menu @select="breadcrumb" class="sidebar-el-menu" :default-active="onRoutes" :collapse="collapse" background-color="#324157"
             text-color="#bfcbd9" active-text-color="#20a0ff" unique-opened router>
             <template v-for="item in items">
                 <template v-if="item.subs">
@@ -36,7 +36,7 @@ import { computed, watch } from "vue";
 import { useStore } from "vuex";
 import { useRoute } from "vue-router";
 export default {
-    setup() {
+    setup(props,context) {
         const items = [
             {
                 icon: "el-icon-s-home",
@@ -98,11 +98,27 @@ export default {
 
         const store = useStore();
         const collapse = computed(() => store.state.collapse);
-
+        let breadcrumbNames = [];
+        const breadcrumb = (lv1,lv2)=>{
+            items.forEach(element => {
+                if (element.index === lv2[0]){
+                    breadcrumbNames.push(element.title);
+                    if (element.subs){
+                        element.subs.forEach(element => {
+                            if (element.index === lv1){
+                                breadcrumbNames.push(element.title);
+                            }
+                        });
+                    }
+                }
+            });
+            context.emit('barCellback',breadcrumbNames);
+        }
         return {
             items,
             onRoutes,
             collapse,
+            breadcrumb
         };
     },
 };
@@ -113,7 +129,7 @@ export default {
         display: block;
         position: absolute;
         left: 0;
-        top: 70px;
+        top: 80px;
         bottom: 0;
         overflow-y: scroll;
         & > ul {
