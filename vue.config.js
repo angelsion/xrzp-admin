@@ -1,3 +1,5 @@
+const CompressionWebpackPlugin = require("compression-webpack-plugin");
+const productionGzipExtensions = ["js", "css"];
 module.exports = {
 	lintOnSave: false, //关闭eslint检测\
 	devServer: {
@@ -16,5 +18,18 @@ module.exports = {
 	},
 	chainWebpack: config => {
 		config.plugins.delete("prefetch") //取消预加载
+	},
+	configureWebpack: {
+		plugins: [
+			new CompressionWebpackPlugin({
+				filename: "[path][base].gz",
+				algorithm: 'gzip',
+				test: new RegExp(`\\.(${productionGzipExtensions.join('|')})$`),
+				threshold: 10240,
+				minRatio: 0.8,
+				deleteOriginalAssets: false,
+			})
+		]
 	}
+  
 }
