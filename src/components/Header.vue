@@ -19,7 +19,7 @@
                 </div> -->
                 <!-- 用户头像 -->
                 <div class="user-avator">
-                    <img src="../assets/img/img.jpg" />
+                    <img :src="userImg" />
                 </div>
                 <!-- 用户名下拉菜单 -->
                 <el-dropdown class="user-name" trigger="click" @command="handleCommand">
@@ -45,6 +45,7 @@ import { useRouter } from "vue-router";
 export default {
     setup() {
         const username = sessionStorage.getItem("userName");
+        const userImg = sessionStorage.getItem("userImg");
         const message = 2;
 
         const store = useStore();
@@ -73,6 +74,7 @@ export default {
 
         return {
             username,
+            userImg,
             message,
             collapse,
             collapseChage,
