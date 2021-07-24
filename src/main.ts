@@ -28,4 +28,20 @@ createApp(App).use(store).use(router)
     .use(ElSubmenu).use(ElMenuItemGroup).use(ElDropdown)
     .use(ElDropdownItem).use(ElDropdownMenu).use(ElOption)
     .use(ElOptionGroup).use(ElBreadcrumb).use(ElBreadcrumbItem)
-    .mount('#app')
+    .mount('#app');
+
+router.beforeEach((to,from,next)=>{
+    const userId = store.state.userId;
+    console.log(store.state);
+    if (to.meta.requireAuth){
+        if (userId){
+            next();
+        }else {
+           next({
+               path: '/'
+           });
+        }
+    }else {
+        next();
+    }
+})
