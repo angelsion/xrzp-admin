@@ -1,6 +1,10 @@
 <template>
-    <el-container class="shop-admin">
-        <el-header class="shop-header" height>
+    <admin-content
+        :delAllSelection="delAllSelection"
+        :addShopVisible="addShopVisible"
+        @update:addShopVisible="addShopVisible = $event"
+    >
+        <template v-slot:queryTerms>
             <el-row>
                 <el-col :span="24">
                     <fieldset>
@@ -27,19 +31,8 @@
                     </fieldset>
                 </el-col>
             </el-row>
-            <el-row class="data-btn">
-                <div>
-                    <el-button type="danger" round>查询</el-button>
-                    <el-button type="primary" round>重置</el-button>
-                    <el-button type="warning" round>导出</el-button>
-                </div>
-            </el-row>
-            <el-row>
-                <el-button type="success" v-on:click="addShopVisible = true">添加</el-button>
-                <el-button type="danger" v-on:click="delAllSelection">删除</el-button>
-            </el-row>
-        </el-header>
-        <el-main>
+        </template>
+        <template v-slot:tableContent>
             <el-table
                 :data="tableData"
                 border
@@ -94,8 +87,8 @@
                     </template>
                 </el-table-column>
             </el-table>
-        </el-main>
-        <el-footer height="40px">
+        </template>
+        <template v-slot:tablePage>
             <div class="block">
                 <el-pagination
                     v-on:current-change="currentChange"
@@ -106,71 +99,72 @@
                     :total="page.tableTotal"
                 ></el-pagination>
             </div>
-        </el-footer>
-        <!-- 编辑弹出框 -->
-        <el-dialog title="添加商品" v-model="addShopVisible" width="30%" top="8vh">
-            <el-form ref="formRef" :rules="rules" :model="shopForm" label-width="80px">
-                <el-form-item label="商品名称" prop="shopName">
-                    <el-input v-model="shopForm.shopName"></el-input>
-                </el-form-item>
-                <el-form-item
-                    label="商品价格"
-                    prop="originalPrice"
-                    :rules="[
+        </template>
+        <template v-slot:addDialog>
+            <el-dialog title="添加商品" v-model="addShopVisible" width="30%" top="8vh">
+                <el-form ref="formRef" :rules="rules" :model="shopForm" label-width="80px">
+                    <el-form-item label="商品名称" prop="shopName">
+                        <el-input v-model="shopForm.shopName"></el-input>
+                    </el-form-item>
+                    <el-form-item
+                        label="商品价格"
+                        prop="originalPrice"
+                        :rules="[
 			{ required: true, message: '价格不能为空'},
 			{ type: 'number', message: '价格必须为数字值'}
 			]"
-                >
-                    <el-input v-model.number="shopForm.originalPrice" autocomplete="off"></el-input>
-                </el-form-item>
-                <el-form-item label="商品标签" prop="scId">
-                    <el-select v-model="shopForm.scId" placeholder="请选择">
-                        <el-option
-                            v-for="(label,i) of shopLabelList"
-                            :key="i"
-                            :label="label.categoryName"
-                            :value="label.scId"
-                        ></el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="是否上架" prop="shopStatusBool">
-                    <el-switch v-model="shopForm.shopStatusBool"></el-switch>
-                </el-form-item>
-                <el-form-item label="商品介绍" prop="shopIntroduction">
-                    <el-input type="textarea" rows="5" v-model="shopForm.shopIntroduction"></el-input>
-                </el-form-item>
-                <el-form-item>
-                    <el-upload
-                        ref="uploadRef"
-                        class="upload"
-                        drag
-                        action="https://jsonplaceholder.typicode.com/posts/"
-                        :http-request="upLoadFile"
-                        :on-success="upLoadSuccess"
-                        :multiple="false"
-                        name="file"
-                        :file-list="fileList"
-                        list-type="picture"
                     >
-                        <i class="el-icon-upload"></i>
-                        <div class="el-upload__text">
-                            将文件拖到此处，或
-                            <em>点击上传</em>
-                        </div>
-                        <template #tip>
-                            <div class="el-upload__tip">只能上传 jpg/png 文件，且不超过 500kb</div>
-                        </template>
-                    </el-upload>
-                </el-form-item>
-            </el-form>
-            <template #footer>
-                <span class="dialog-footer">
-                    <el-button @click="addShopVisible = false">取 消</el-button>
-                    <el-button type="primary" v-on:click="saveShop">确 定</el-button>
-                </span>
-            </template>
-        </el-dialog>
-    </el-container>
+                        <el-input v-model.number="shopForm.originalPrice" autocomplete="off"></el-input>
+                    </el-form-item>
+                    <el-form-item label="商品标签" prop="scId">
+                        <el-select v-model="shopForm.scId" placeholder="请选择">
+                            <el-option
+                                v-for="(label,i) of shopLabelList"
+                                :key="i"
+                                :label="label.categoryName"
+                                :value="label.scId"
+                            ></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="是否上架" prop="shopStatusBool">
+                        <el-switch v-model="shopForm.shopStatusBool"></el-switch>
+                    </el-form-item>
+                    <el-form-item label="商品介绍" prop="shopIntroduction">
+                        <el-input type="textarea" rows="5" v-model="shopForm.shopIntroduction"></el-input>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-upload
+                            ref="uploadRef"
+                            class="upload"
+                            drag
+                            action="https://jsonplaceholder.typicode.com/posts/"
+                            :http-request="upLoadFile"
+                            :on-success="upLoadSuccess"
+                            :multiple="false"
+                            name="file"
+                            :file-list="fileList"
+                            list-type="picture"
+                        >
+                            <i class="el-icon-upload"></i>
+                            <div class="el-upload__text">
+                                将文件拖到此处，或
+                                <em>点击上传</em>
+                            </div>
+                            <template #tip>
+                                <div class="el-upload__tip">只能上传 jpg/png 文件，且不超过 500kb</div>
+                            </template>
+                        </el-upload>
+                    </el-form-item>
+                </el-form>
+                <template #footer>
+                    <span class="dialog-footer">
+                        <el-button @click="addShopVisible = false">取 消</el-button>
+                        <el-button type="primary" v-on:click="saveShop">确 定</el-button>
+                    </span>
+                </template>
+            </el-dialog>
+        </template>
+    </admin-content>
 </template>
 
 <script lang="ts">
@@ -179,8 +173,10 @@ import { ElMessage, ElMessageBox } from 'element-plus';
 import ajax from "../utils/ajax";
 import moment from "moment";
 import qs from "qs";
+import AdminContent from "../components/AdminContent.vue"
 
 export default defineComponent({
+    components: { AdminContent },
     setup() {
         let data = ref({
             currentPage: 0,
@@ -342,25 +338,25 @@ export default defineComponent({
         }
 
         /** 批量删除 */
-        const delAllSelection = ()=>{
+        const delAllSelection = () => {
             let deleteList: Array<number> = [];
             let selection: any = multipleSelection.value;
             for (let i = 0; i < selection.length; i++) {
                 deleteList.push(selection[i].shopId);
             }
-            ajax('/api/admin/shop/deleteShops',qs.stringify({shopIds: deleteList},{indices: false}),'POST').then((result:any) => {
+            ajax('/api/admin/shop/deleteShops', qs.stringify({ shopIds: deleteList }, { indices: false }), 'POST').then((result: any) => {
                 if (result.data.code === 200) {
-                        ElMessage.success({
-                            message: '删除成功',
-                            type: 'success'
-                        });
-                        loadTable();
-                    } else {
-                        ElMessage({
-                            message: result.data.message,
-                            type: 'error'
-                        });
-                    }
+                    ElMessage.success({
+                        message: '删除成功',
+                        type: 'success'
+                    });
+                    loadTable();
+                } else {
+                    ElMessage({
+                        message: result.data.message,
+                        type: 'error'
+                    });
+                }
             }).catch((err) => {
                 console.error(err);
             });
@@ -401,22 +397,3 @@ export default defineComponent({
     },
 });
 </script>
-
-<style lang="scss">
-.shop-admin {
-    & > .shop-header {
-        .data-btn {
-            margin-top: 10px;
-            & > div {
-                margin: 0 auto;
-            }
-        }
-    }
-    .table-td-thumb {
-        display: block;
-        margin: auto;
-        width: 40px;
-        height: 40px;
-    }
-}
-</style>

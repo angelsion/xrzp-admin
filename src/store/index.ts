@@ -45,6 +45,7 @@ export default createStore({
 					if (result.data.code === 200) {
 						sessionStorage.setItem('userId', result.data.data.userId);
 						sessionStorage.setItem('userName', result.data.data.userName);
+						sessionStorage.setItem('userImg', result.data.data.userImg);
 						commit('setUid',result.data.data);
 						commit('setUserName',result.data.data);
 						resolve();
