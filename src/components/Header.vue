@@ -9,14 +9,14 @@
         <div class="header-right">
             <div class="header-user-con">
                 <!-- 消息中心 -->
-<!--                 <div class="btn-bell">
+                <!--                 <div class="btn-bell">
                     <el-tooltip effect="dark" :content="message?`有${message}条未读消息`:`消息中心`" placement="bottom">
                         <router-link to="">
                             <i class="el-icon-bell"></i>
                         </router-link>
                     </el-tooltip>
                     <span class="btn-bell-badge" v-if="message"></span>
-                </div> -->
+                </div>-->
                 <!-- 用户头像 -->
                 <div class="user-avator">
                     <img :src="userImg" />
@@ -42,6 +42,7 @@
 import { computed, onMounted } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
+import ajax from "../utils/ajax";
 export default {
     setup() {
         const username = sessionStorage.getItem("userName");
@@ -65,8 +66,15 @@ export default {
         const router = useRouter();
         const handleCommand = (command) => {
             if (command == "loginout") {
-                localStorage.removeItem("ms_username");
-                router.push("/login");
+                ajax("/api/user/loginOut", "")
+                    .then((result) => {
+                        sessionStorage.removeItem('userId');
+                        sessionStorage.removeItem('userName');
+                        router.push("/");
+                    })
+                    .catch((err) => {
+                        console.error(err);
+                    });
             } else if (command == "user") {
                 router.push("/user");
             }
