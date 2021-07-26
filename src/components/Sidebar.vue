@@ -79,7 +79,7 @@ export default {
                 title: "商品管理",
                 subs: [
                     {
-                        index: "/home/permission",
+                        index: "ShopCategory",
                         title: "商品标签",
                     },
                     {

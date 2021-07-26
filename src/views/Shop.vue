@@ -8,17 +8,17 @@
                         <el-form label-position="right" label-width="80px" :model="selectForm">
                             <el-row>
                                 <el-col :span="6">
-                                    <el-form-item label="名称">
+                                    <el-form-item label="商品名称">
                                         <el-input></el-input>
                                     </el-form-item>
                                 </el-col>
                                 <el-col :span="6">
-                                    <el-form-item label="活动区域">
+                                    <el-form-item label="分类名称">
                                         <el-input></el-input>
                                     </el-form-item>
                                 </el-col>
                                 <el-col :span="6">
-                                    <el-form-item label="活动形式">
+                                    <el-form-item label="状态">
                                         <el-input></el-input>
                                     </el-form-item>
                                 </el-col>

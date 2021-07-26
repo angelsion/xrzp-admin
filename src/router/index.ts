@@ -2,6 +2,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import Home from '../views/Home.vue'
 
 const Shop = () => import(/* webpackChunkName: "shop" */ '../views/Shop.vue')
+const ShopCategory = () => import(/* webpackChunkName: "shopCategory" */ '../views/ShopCategory.vue')
 const Login = () => import(/* webpackChunkName: "login" */ '../views/Login.vue')
 
 const routes: Array<RouteRecordRaw> = [
@@ -19,7 +20,12 @@ const routes: Array<RouteRecordRaw> = [
         path: 'shop',
         name: 'Shop',
         component: Shop
-      }
+      },
+      {
+        path: 'shopCategory',
+        name: 'ShopCategory',
+        component: ShopCategory
+      },
     ]
   },
   {
