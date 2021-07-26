@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import Home from '../views/Home.vue'
 
+const Cust = () => import(/* webpackChunkName: "cust" */ '../views/Cust.vue')
 const Shop = () => import(/* webpackChunkName: "shop" */ '../views/Shop.vue')
 const ShopCategory = () => import(/* webpackChunkName: "shopCategory" */ '../views/ShopCategory.vue')
 const Login = () => import(/* webpackChunkName: "login" */ '../views/Login.vue')
@@ -15,7 +16,15 @@ const routes: Array<RouteRecordRaw> = [
     path: '/home',
     name: 'Home',
     component: Home,
+    meta: {
+      requireAuth: true
+    },
     children: [
+      {
+        path: 'cust',
+        name: 'Cust',
+        component: Cust
+      },
       {
         path: 'shop',
         name: 'Shop',

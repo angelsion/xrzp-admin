@@ -6,16 +6,15 @@ import Vrouter from "@/router"
 export default createStore({
 	state: {
 		userId: sessionStorage.getItem('userId'),
-		username: sessionStorage.getItem('username'),
+		userName: sessionStorage.getItem('userName'),
 		collapse: false
 	},
 	mutations: {
 		setUid(state, user) {
-			console.log(user);
 			state.userId = user.userId;
 		},
 		setUserName(state, user) {
-			state.username = user.username
+			state.userName = user.userName
 		},
 		// 侧边栏折叠
 		handleCollapse(state, data) {
@@ -32,7 +31,6 @@ export default createStore({
 							const router = Vrouter;
 							router.push('/home/shop');
 						})
-						commit('setUid', result.data)
 						resolve(result)
 					} else {
 						reject(result.message);
@@ -48,8 +46,8 @@ export default createStore({
 						sessionStorage.setItem('userId', result.data.data.userId);
 						sessionStorage.setItem('userName', result.data.data.userName);
 						sessionStorage.setItem('userImg', result.data.data.userImg);
-						// commit('setUid',result.data.data.userId);
-						// commit('setUserName',result.data.data.userName);
+						commit('setUid',result.data.data);
+						commit('setUserName',result.data.data);
 						resolve();
 					} else {
 						reject(result.message);

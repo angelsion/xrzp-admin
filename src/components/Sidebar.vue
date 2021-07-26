@@ -45,7 +45,7 @@ export default {
             },
             {
                 icon: "el-icon-user",
-                index: "/table",
+                index: "cust",
                 title: "客户管理",
             },
             {

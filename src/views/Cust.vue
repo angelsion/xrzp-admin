@@ -12,17 +12,17 @@
                         <el-form label-position="right" label-width="80px" :model="selectForm">
                             <el-row>
                                 <el-col :span="6">
-                                    <el-form-item label="商品名称">
+                                    <el-form-item label="用户名">
                                         <el-input></el-input>
                                     </el-form-item>
                                 </el-col>
                                 <el-col :span="6">
-                                    <el-form-item label="分类名称">
+                                    <el-form-item label="手机号">
                                         <el-input></el-input>
                                     </el-form-item>
                                 </el-col>
                                 <el-col :span="6">
-                                    <el-form-item label="状态">
+                                    <el-form-item label="邮箱">
                                         <el-input></el-input>
                                     </el-form-item>
                                 </el-col>
@@ -43,34 +43,35 @@
                 v-on:selection-change="handleSelectionChange"
             >
                 <el-table-column type="selection" width="55"></el-table-column>
-                <el-table-column prop="shopName" label="商品名"></el-table-column>
-                <el-table-column prop="originalPrice" label="价格"></el-table-column>
-                <el-table-column label="图片(查看大图)" align="center">
+                <el-table-column prop="userName" label="用户名"></el-table-column>
+                <el-table-column prop="email" label="邮箱"></el-table-column>
+                <el-table-column prop="phone" label="电话"></el-table-column>
+                <el-table-column prop="userIntegral" label="积分"></el-table-column>
+                <el-table-column label="用户头像(查看大图)" align="center">
                     <template #default="scope">
                         <el-image
                             class="table-td-thumb"
                             fit="contain"
-                            :src="scope.row.coverImg"
-                            :preview-src-list="[scope.row.coverImg]"
+                            :src="scope.row.userImg"
+                            :preview-src-list="[scope.row.userImg]"
                         ></el-image>
                     </template>
                 </el-table-column>
-                <el-table-column prop="shopIntroduction" show-overflow-tooltip label="介绍"></el-table-column>
-                <el-table-column label="状态" align="center">
+                <el-table-column label="性别" align="center">
                     <template #default="scope">
                         <el-tag
                             :type="
-                                scope.row.shopStatus === 1
+                                scope.row.sex === 1
                                     ? 'success'
-                                    : scope.row.shopStatus === 0
+                                    : scope.row.sex === 0
                                     ? 'danger'
                                     : ''
                             "
-                        >{{ scope.row.shopStatus == 1?'新品':'下架' }}</el-tag>
+                        >{{ scope.row.sex == 1?'男':'女' }}</el-tag>
                     </template>
                 </el-table-column>
 
-                <el-table-column prop="createAt" :formatter="dataFormat" label="上架时间"></el-table-column>
+                <el-table-column prop="createAt" :formatter="dataFormat" label="注册时间"></el-table-column>
                 <el-table-column label="操作" width="180" align="center">
                     <template #default="scope">
                         <el-button
@@ -247,7 +248,7 @@ export default defineComponent({
         };
         /** 加载表格数据 */
         let loadTable = () => {
-            ajax("/api/shop/getShopAll", { ...page.value })
+            ajax("/api/admin/user/getUserAll", { ...page.value })
                 .then((result: any) => {
                     tableData.value = result.data.data.list;
                     page.value.tableTotal = result.data.data.total;
@@ -344,7 +345,7 @@ export default defineComponent({
             for (let i = 0; i < selection.length; i++) {
                 deleteList.push(selection[i].shopId);
             }
-            ajax('/api/admin/shop/deleteShops', qs.stringify({ shopIds: deleteList }, { indices: false }), 'POST').then((result: any) => {
+            ajax('/api/admin/shop/deleteShopsxxx', qs.stringify({ shopIds: deleteList }, { indices: false }), 'POST').then((result: any) => {
                 if (result.data.code === 200) {
                     ElMessage.success({
                         message: '删除成功',
